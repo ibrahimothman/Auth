@@ -1,17 +1,21 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+const connectDB = require('./config/db')
 
 dotenv.config()
 
+// connect to db
+connectDB()
+
 const app = express()
 app.use(morgan('dev'))
+app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.json({
-        message: "welcome to auth"
-    })
-})
+app.use('/', require('./routes'))
+app.use('/auth', require('./routes/auth'))
+
+
 
 // some global middleware
 
